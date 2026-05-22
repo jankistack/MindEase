@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "555378559886",
+    "project_id": "mindease-10d40",
+    "storage_bucket": "mindease-10d40.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:555378559886:android:538c449027df3379c8f2df",
+        "android_client_info": {
+          "package_name": "com.example.mindease"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMYydiKxO6Z8rh3HYlEhiREH2QzF7FsCM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
