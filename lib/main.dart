@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'firebase_options.dart';
 import 'features/dashboard/screens/dashboard_screen.dart';
 import 'features/auth/screens/login_screen.dart';
-import 'shared/widgets/shimmer_loading.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -16,6 +17,7 @@ void main() async {
   } catch (e) {
     debugPrint('Firebase config initialization error: $e');
   }
+
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -27,6 +29,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'MindEase',
       debugShowCheckedModeBanner: false,
+
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF6A1B9A),
@@ -34,6 +37,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
+
       darkTheme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF6A1B9A),
@@ -41,6 +45,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
+
       home: const AuthWrapper(),
     );
   }
@@ -64,11 +69,12 @@ class _AuthWrapperState extends State<AuthWrapper> {
   }
 
   Future<void> _checkAuth() async {
+    // Splash screen delay
+    await Future.delayed(const Duration(seconds: 2));
+
     try {
       _user = FirebaseAuth.instance.currentUser;
-      setState(() {
-        _isLoading = false;
-      });
+
       FirebaseAuth.instance.authStateChanges().listen((user) {
         if (mounted) {
           setState(() {
@@ -77,6 +83,10 @@ class _AuthWrapperState extends State<AuthWrapper> {
         }
       });
     } catch (e) {
+      debugPrint(e.toString());
+    }
+
+    if (mounted) {
       setState(() {
         _isLoading = false;
       });
@@ -85,23 +95,41 @@ class _AuthWrapperState extends State<AuthWrapper> {
 
   @override
   Widget build(BuildContext context) {
+    // Splash Screen
     if (_isLoading) {
       return Scaffold(
+        backgroundColor: Colors.white,
+
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              AppShimmer(width: 80, height: 80, borderRadius: 40),
-              SizedBox(height: 24),
-              AppShimmer(width: 150, height: 20, borderRadius: 10),
+            children: [
+              //Image.asset(
+              //  "assets/logo.png",
+              //   width: 140,
+              //  ),
+              const SizedBox(height: 20),
+
+              const Text(
+                "MindEase",
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF6A1B9A),
+                ),
+              ),
             ],
           ),
         ),
       );
     }
+
+    // If user logged in
     if (_user != null) {
       return const DashboardScreen();
     }
+
+    // If user not logged in
     return const LoginScreen();
   }
 }
