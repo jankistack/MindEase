@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
 import 'features/dashboard/screens/dashboard_screen.dart';
 import 'features/auth/screens/login_screen.dart';
+import 'shared/widgets/shimmer_loading.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'MindEase',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF6A1B9A),
@@ -84,7 +86,18 @@ class _AuthWrapperState extends State<AuthWrapper> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      return Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              AppShimmer(width: 80, height: 80, borderRadius: 40),
+              SizedBox(height: 24),
+              AppShimmer(width: 150, height: 20, borderRadius: 10),
+            ],
+          ),
+        ),
+      );
     }
     if (_user != null) {
       return const DashboardScreen();
