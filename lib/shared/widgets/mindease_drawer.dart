@@ -5,6 +5,8 @@ import '../../features/auth/providers/auth_provider.dart';
 import '../../features/dashboard/screens/dashboard_screen.dart';
 import '../../features/mood_tracking/screens/mood_home_screen.dart';
 import '../../features/meditation/screens/meditation_home_screen.dart';
+import '../../features/profile/screens/profile_screen.dart';
+import '../../features/analytics/screens/analytics_screen.dart';
 
 class MindEaseDrawer extends ConsumerWidget {
   const MindEaseDrawer({super.key});
@@ -40,6 +42,12 @@ class MindEaseDrawer extends ConsumerWidget {
                         context, MaterialPageRoute(builder: (_) => const MeditationHomeScreen())),
                   ),
                   _buildDrawerItem(
+                    icon: Icons.analytics_rounded,
+                    title: 'Analytics & Trends',
+                    onTap: () => Navigator.pushReplacement(
+                        context, MaterialPageRoute(builder: (_) => const AnalyticsScreen())),
+                  ),
+                  _buildDrawerItem(
                     icon: Icons.book_rounded,
                     title: 'Journal',
                     onTap: () => _showComingSoon(context, 'Journal'),
@@ -48,7 +56,8 @@ class MindEaseDrawer extends ConsumerWidget {
                   _buildDrawerItem(
                     icon: Icons.person_rounded,
                     title: 'Profile',
-                    onTap: () => _showComingSoon(context, 'Profile'),
+                    onTap: () => Navigator.pushReplacement(
+                        context, MaterialPageRoute(builder: (_) => const ProfileScreen())),
                   ),
                   _buildDrawerItem(
                     icon: Icons.settings_rounded,
